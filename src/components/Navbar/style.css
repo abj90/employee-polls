@@ -1,0 +1,17 @@
+.avatar-container {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.avatar-menu {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-right: 20px;
+}
+
+.avatar-name {
+  margin-left: 10px;
+}
