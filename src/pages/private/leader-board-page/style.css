@@ -1,0 +1,18 @@
+.leaderboard-container {
+  margin-top: 100px;
+}
+
+.avatar-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.user-data {
+  margin-left: 15px;
+}
+
+.user-name {
+  font-size: 18px;
+  font-weight: 800;
+}
