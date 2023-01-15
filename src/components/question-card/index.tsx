@@ -5,10 +5,14 @@ import { formatDate } from "../../util/helper";
 
 import "./style.css";
 
-const QuestionCard = ({ question }: IQuestionCard) => {
+const QuestionCard = ({ question, isUnAnwseredQuestion }: IQuestionCard) => {
   const navigate = useNavigate();
   const navigateTo = (id: string) => {
-    navigate(`/question/${id}`);
+    navigate(`/question/${id}`, {
+      state: {
+        isUnAnwseredQuestion,
+      },
+    });
   };
 
   return (

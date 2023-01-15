@@ -4,6 +4,8 @@ import {
   AddUserQuestion,
   IState,
   Question,
+  ReceiveQuestionsAction,
+  ReceiveUsersAction,
   SaveQuestionAction,
   SaveUserAnswerAction,
 } from "../interfaces";
@@ -18,7 +20,7 @@ import { addUserQuestion, receiverUsers, saveUserAnswer } from "./users";
 import { addQuestion } from "../actions/question";
 
 export function handleInitialData() {
-  return (dispatch: Dispatch<any>) => {
+  return (dispatch: Dispatch<ReceiveUsersAction | ReceiveQuestionsAction>) => {
     return getInitialData().then(({ users, questions }) => {
       dispatch(receiverUsers(users));
       dispatch(receiveQuestions(questions));

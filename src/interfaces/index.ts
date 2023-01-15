@@ -110,13 +110,13 @@ export type QuestionActions =
 
 export interface IHome {
   dispatch: Dispatch<any>;
-  questions: Questions;
-  anwseredQuestion: string[];
-  unAnwseredQuestion: string[];
+  anwseredQuestion: Question[];
+  unAnwseredQuestion: Question[];
 }
 
 export interface IQuestionCard {
   question: Question;
+  isUnAnwseredQuestion: boolean;
 }
 
 export interface UserTable {
@@ -136,6 +136,8 @@ export interface IQuestionDetail {
   question: Question;
   user: User;
   users: Users;
+  isUnAnwseredQuestion: boolean;
+  numberOfUsers: number;
 }
 
 export interface ILogin {

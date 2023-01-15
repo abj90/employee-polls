@@ -7,7 +7,6 @@ import Button from "@mui/material/Button";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
-
 import { IQuestionDetail, IState, Users } from "../../../interfaces";
 import {
   handleInitialData,
@@ -33,11 +32,15 @@ const QuestionDetail = ({
   question,
   user,
   users,
+  isUnAnwseredQuestion,
+  numberOfUsers,
   dispatch,
 }: IQuestionDetail) => {
   const navigate = useNavigate();
   const [answer, setAnswer] = useState<string>("");
   const [availableUsers, seUsers] = useState<Users>(users);
+  const optionOneVotes = question?.optionOne?.votes.length;
+  const optionTwoVotes = question?.optionTwo?.votes.length;
 
   useEffect(() => {
     if (isEmptyObj(availableUsers)) {
@@ -55,6 +58,14 @@ const QuestionDetail = ({
     navigate("/home");
   };
 
+  const getPercentageOfPeopleWhoVoted = (
+    numberOfUsers: number,
+    votes: number
+  ): number => {
+    const result = Number((votes / numberOfUsers) * 100);
+    return Math.round(result * 100) / 100;
+  };
+
   return (
     <div className="question-detail-container">
       <div className="question-container">
@@ -69,55 +80,84 @@ const QuestionDetail = ({
           />
         </div>
         <h2> Would You Rather</h2>
-        <div className="radio-group-container">
-          <FormControl sx={{ mt: 3 }} className="form" onSubmit={handleSubmmit}>
-            <RadioGroup
-              row
-              aria-label="gender"
-              name="gender1"
-              value={answer}
-              onChange={handleChange}
+        {isUnAnwseredQuestion ? (
+          <div className="radio-group-container">
+            <FormControl
+              sx={{ mt: 3 }}
+              className="form"
+              onSubmit={handleSubmmit}
             >
-              <div className="test">
-                <FormControlLabel
-                  value={"optionOne"}
-                  control={<Radio />}
-                  label={question?.optionOne.text}
-                  labelPlacement="top"
-                />
-                <FormControlLabel
-                  value={"optionTwo"}
-                  control={<Radio />}
-                  label={question?.optionTwo.text}
-                  labelPlacement="top"
-                />
-              </div>
-            </RadioGroup>
-            <Button
-              sx={{ mt: 3, width: 200 }}
-              type="submit"
-              variant="outlined"
-              size="large"
-              onClick={handleSubmmit}
-              disabled={!answer}
-            >
-              Submit Answer
-            </Button>
-          </FormControl>
-        </div>
+              <RadioGroup
+                row
+                aria-label="gender"
+                name="gender1"
+                value={answer}
+                onChange={handleChange}
+              >
+                <div className="test">
+                  <FormControlLabel
+                    value={"optionOne"}
+                    control={<Radio />}
+                    label={question?.optionOne.text}
+                    labelPlacement="top"
+                  />
+                  <FormControlLabel
+                    value={"optionTwo"}
+                    control={<Radio />}
+                    label={question?.optionTwo.text}
+                    labelPlacement="top"
+                  />
+                </div>
+              </RadioGroup>
+              <Button
+                sx={{ mt: 3, width: 200 }}
+                type="submit"
+                variant="outlined"
+                size="large"
+                onClick={handleSubmmit}
+                disabled={!answer}
+              >
+                Submit Answer
+              </Button>
+            </FormControl>
+          </div>
+        ) : (
+          <div className="answer-question">
+            <div className="answer-question-container">
+              <p className="title">{question?.optionOne.text}</p>
+              <p>{`${optionOneVotes} people voted for option`}</p>
+              <p>{`${getPercentageOfPeopleWhoVoted(
+                numberOfUsers,
+                optionOneVotes
+              )}% people who voted this option`}</p>
+            </div>
+            <div className="answer-question-container">
+              <p className="title">{question?.optionTwo.text}</p>
+              <p>{`${optionTwoVotes} people voted for option`}</p>
+              <p>{`${getPercentageOfPeopleWhoVoted(
+                numberOfUsers,
+                optionTwoVotes
+              )}% people who voted this option`}</p>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
 };
 
 const mapStateToProps = ({ questions, users }: IState, props: any) => {
+  const { isUnAnwseredQuestion } = props.router.location.state;
   const { id } = props.router.params;
   const question = questions[id];
   const user = users[question?.author];
+  const numberOfUsers = Object.keys(users || {}).length;
   return {
     question,
     user,
     users,
+    isUnAnwseredQuestion,
+    numberOfUsers,
   };
 };
 

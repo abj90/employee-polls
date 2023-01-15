@@ -3,16 +3,10 @@ import { connect } from "react-redux";
 
 import { handleInitialData } from "../../../actions/shared";
 import QuestionCard from "../../../components/question-card";
-import { IHome, IState } from "../../../interfaces";
-import { getArraySortedBytimestamp } from "../../../util/helper";
+import { IHome, IState, Question } from "../../../interfaces";
 import "./style.css";
 
-const Home = ({
-  dispatch,
-  questions,
-  anwseredQuestion,
-  unAnwseredQuestion,
-}: IHome) => {
+const Home = ({ dispatch, anwseredQuestion, unAnwseredQuestion }: IHome) => {
   useEffect(() => {
     dispatch(handleInitialData());
   }, []);
@@ -22,16 +16,24 @@ const Home = ({
       <div className="box">
         <div className="box-title">New Questions</div>
         <div className="box-content">
-          {unAnwseredQuestion.map((questionId: string) => (
-            <QuestionCard key={questionId} question={questions[questionId]} />
+          {unAnwseredQuestion?.map((question: Question) => (
+            <QuestionCard
+              key={question?.id}
+              question={question}
+              isUnAnwseredQuestion={true}
+            />
           ))}
         </div>
       </div>
       <div className="box">
         <div className="box-title">Done</div>
         <div className="box-content">
-          {anwseredQuestion?.map((questionId: string) => (
-            <QuestionCard key={questionId} question={questions[questionId]} />
+          {anwseredQuestion?.map((question: Question) => (
+            <QuestionCard
+              key={question?.id}
+              question={question}
+              isUnAnwseredQuestion={false}
+            />
           ))}
         </div>
       </div>
@@ -41,10 +43,11 @@ const Home = ({
 
 const mapStateToProps = ({ authedUser, users, questions }: IState) => {
   const questionsArray = Object.keys(questions || {});
-  const anwseredQuestionArray = authedUser.user
+  let anwseredQuestionArray = authedUser.user
     ? Object.keys(users[authedUser.user?.id]?.answers || {})
     : [];
-  const unAnwseredQuestionArray = questionsArray.filter((question) => {
+
+  let unAnwseredQuestionArray = questionsArray.filter((question) => {
     let itemFound: boolean = true;
     for (let i = 0; i < anwseredQuestionArray.length; i++) {
       if (question === anwseredQuestionArray[i]) {
@@ -55,9 +58,12 @@ const mapStateToProps = ({ authedUser, users, questions }: IState) => {
   });
 
   return {
-    anwseredQuestion: getArraySortedBytimestamp(anwseredQuestionArray),
-    unAnwseredQuestion: getArraySortedBytimestamp(unAnwseredQuestionArray),
-    questions,
+    anwseredQuestion: anwseredQuestionArray
+      .map((questionId: string) => questions[questionId])
+      .sort((a, b) => b.timestamp - a.timestamp),
+    unAnwseredQuestion: unAnwseredQuestionArray
+      .map((questionId: string) => questions[questionId])
+      .sort((a, b) => a.timestamp - b.timestamp),
   };
 };
 
