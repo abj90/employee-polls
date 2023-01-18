@@ -8,8 +8,9 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import "./style.css";
 import { logOutUser } from "../../actions/authedUser";
+import { INavBar, IState } from "../../interfaces";
 
-const NavBar = ({ authedUser, isUserLogged, dispatch }: any) => {
+const NavBar = ({ authedUser, isUserLogged, dispatch }: INavBar) => {
   const navigate = useNavigate();
 
   const goTo = (pageToNavigate: string) => {
@@ -63,9 +64,9 @@ const NavBar = ({ authedUser, isUserLogged, dispatch }: any) => {
   );
 };
 
-const mapStateToProps = ({ authedUser }: any) => ({
-  authedUser: authedUser.user,
-  isUserLogged: authedUser.isAuthUser === true,
+const mapStateToProps = ({ authedUser }: IState) => ({
+  authedUser: authedUser?.user!,
+  isUserLogged: authedUser?.isAuthUser,
 });
 
 export default connect(mapStateToProps)(NavBar);

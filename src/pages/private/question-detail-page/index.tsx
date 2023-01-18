@@ -94,7 +94,7 @@ const QuestionDetail = ({
                 value={answer}
                 onChange={handleChange}
               >
-                <div className="test">
+                <div className="radio-input">
                   <FormControlLabel
                     value={"optionOne"}
                     control={<Radio />}

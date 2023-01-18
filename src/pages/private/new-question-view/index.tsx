@@ -52,6 +52,7 @@ const NewQuestion = ({ dispatch }: INewQuestion) => {
             name="optionOne"
             value={questionOptions.optionOne}
             onChange={handleInputChange}
+            inputProps={{ "data-testid": "optionOne-input" }}
           />
           <TextField
             sx={{ mt: 4, width: 800 }}
@@ -60,6 +61,7 @@ const NewQuestion = ({ dispatch }: INewQuestion) => {
             name="optionTwo"
             value={questionOptions.optionTwo}
             onChange={handleInputChange}
+            inputProps={{ "data-testid": "optionTwo-input" }}
           />
           <Button
             sx={{ mt: 4, width: 200 }}
@@ -67,6 +69,7 @@ const NewQuestion = ({ dispatch }: INewQuestion) => {
             variant="outlined"
             size="large"
             disabled={isDisabled()}
+            data-testid="submit-btn"
           >
             Submit Answer
           </Button>

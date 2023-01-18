@@ -103,6 +103,8 @@ export interface SaveQuestionAction {
   authedUser: string;
 }
 
+export interface Empty {}
+
 export type QuestionActions =
   | ReceiveQuestionsAction
   | AddQuestionAction
@@ -150,4 +152,10 @@ export interface IRequireAuth {
 
 export interface INewQuestion {
   dispatch: Dispatch<any>;
+}
+
+export interface INavBar {
+  authedUser: User;
+  isUserLogged: boolean;
+  dispatch: Dispatch<LogOutAction>;
 }

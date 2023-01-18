@@ -152,11 +152,17 @@ function formatQuestion({ optionOneText, optionTwoText, author }) {
 }
 
 export function _saveQuestion(question) {
+  const { optionOneText, optionTwoText, author } = question;
+
   return new Promise((res, rej) => {
-    const authedUser = question.author;
+    const authedUser = author;
     const formattedQuestion = formatQuestion(question);
 
     setTimeout(() => {
+      if (optionOneText === "" || optionTwoText === "" || author === "") {
+        return rej("Required data was not provided");
+      }
+
       questions = {
         ...questions,
         [formattedQuestion.id]: formattedQuestion,
@@ -166,7 +172,9 @@ export function _saveQuestion(question) {
         ...users,
         [authedUser]: {
           ...users[authedUser],
-          questions: users[authedUser].questions.concat([formattedQuestion.id]),
+          questions: users[authedUser]?.questions.concat([
+            formattedQuestion.id,
+          ]),
         },
       };
 
@@ -178,6 +186,10 @@ export function _saveQuestion(question) {
 export function _saveQuestionAnswer({ authedUser, qid, answer }) {
   return new Promise((res, rej) => {
     setTimeout(() => {
+      if (authedUser === "" || qid === "" || answer === "") {
+        return rej("An error has occurred, please provided the required data");
+      }
+
       users = {
         ...users,
         [authedUser]: {
@@ -195,12 +207,12 @@ export function _saveQuestionAnswer({ authedUser, qid, answer }) {
           ...questions[qid],
           [answer]: {
             ...questions[qid][answer],
-            votes: questions[qid][answer].votes.concat([authedUser]),
+            votes: questions[qid][answer]?.votes.concat([authedUser]),
           },
         },
       };
 
-      res();
+      res(true);
     }, 500);
   });
 }

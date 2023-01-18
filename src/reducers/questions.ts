@@ -7,7 +7,7 @@ export default function questions(
 ) {
   switch (action.type) {
     case ACTION.RECEIVE_QUESTIONS:
-      return { ...state, ...action.questions };
+      return { ...state, ...action?.questions };
     case ACTION.ADD_QUESTION:
       return { ...state, [action.question.id]: action.question };
     case ACTION.SAVE_QUESTION_ANSWER:

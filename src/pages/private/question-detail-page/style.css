@@ -27,6 +27,13 @@
   justify-content: space-between;
 }
 
+.radio-input {
+  width: 600px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
 .title {
   text-align: center;
   font-weight: 800;
