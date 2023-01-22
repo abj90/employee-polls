@@ -147,7 +147,7 @@ const QuestionDetail = ({
 };
 
 const mapStateToProps = ({ questions, users }: IState, props: any) => {
-  const { isUnAnwseredQuestion } = props.router.location.state;
+  const isUnAnwseredQuestion = props?.router?.location?.state;
   const { id } = props.router.params;
   const question = questions[id];
   const user = users[question?.author];

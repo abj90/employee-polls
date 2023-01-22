@@ -3,18 +3,16 @@ import { useLocation, Navigate, Outlet } from "react-router-dom";
 import { IRequireAuth, IState } from "../interfaces";
 
 const RequireAuth = ({ isUserLogged }: IRequireAuth) => {
-  let auth = isUserLogged;
   let location = useLocation();
 
-  if (!auth) {
-    return <Navigate to="/login" state={{ from: location }} />;
-  }
-
-  return <Outlet />;
+  return isUserLogged ? (
+    <Outlet />
+  ) : (
+    <Navigate to="/login" replace state={{ path: location.pathname }} />
+  );
 };
 
 const mapStateToProps = ({ authedUser }: IState) => {
-  console.log("auth", authedUser);
   return {
     isUserLogged: authedUser.isAuthUser,
   };

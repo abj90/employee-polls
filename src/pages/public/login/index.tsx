@@ -1,7 +1,13 @@
 import { connect } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
-import { USERS_FOR_LOGIN } from "../../../constants";
+import {
+  PAGE_404,
+  QUESTIONS,
+  QUESTIONS_ID_PRESENT_IN_DB,
+  USERS_FOR_LOGIN,
+} from "../../../constants";
 import { logingUser } from "../../../actions/authedUser";
 import { AuthedUser, ILogin } from "../../../interfaces";
 
@@ -9,9 +15,22 @@ import "./style.css";
 
 const Login = ({ dispatch }: ILogin) => {
   const navigate = useNavigate();
+  const { state } = useLocation();
   const handleLogin = (userToBeLooged: AuthedUser) => {
     dispatch(logingUser(userToBeLooged));
-    navigate("/home");
+    navigate(getRedirectPath(state?.path) || "/home");
+  };
+
+  const getRedirectPath = (path: string): string | null => {
+    if (path?.includes(QUESTIONS)) {
+      const questionIdParam = path.slice(11);
+      // I have created this array of question IDs since we dont have a proper backend
+      const isQuestionIdIncludedInDB =
+        QUESTIONS_ID_PRESENT_IN_DB.includes(questionIdParam);
+      return isQuestionIdIncludedInDB ? path : PAGE_404;
+    } else {
+      return path;
+    }
   };
 
   return (

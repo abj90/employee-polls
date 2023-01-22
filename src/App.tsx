@@ -24,9 +24,9 @@ const App = () => {
               <Route path="/home" element={<Home />} />
               <Route path="/leaderboard" element={<LeaderBoardPage />} />
               <Route path="/add" element={<NewQuestion />} />
-              <Route path="question/:id" element={<QuestionDetail />} />
+              <Route path="questions/:id" element={<QuestionDetail />} />
             </Route>
-            <Route path="" element={<Navigate to="/home" replace />} />
+            <Route path="" element={<Navigate to="/login" replace />} />
             {/*ask*/}
             <Route path="*" element={<NotFound />} />
           </Routes>

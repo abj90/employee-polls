@@ -86,11 +86,15 @@ const getUserTableData = (users: Users): UserTable[] => {
         },
         answered: Object.keys(users[key].answers).length,
         created: users[key].questions!.length,
+        score:
+          Object.keys(users[key].answers).length + users[key].questions!.length,
       });
     }
   }
 
-  return usersTableData;
+  return usersTableData.sort(
+    (a: UserTable, b: UserTable) => +b.score - +a.score
+  );
 };
 
 export default connect(mapStateToProps)(LeaderBoardPage);

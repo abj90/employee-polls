@@ -125,6 +125,7 @@ export interface UserTable {
   user: AuthedUser;
   answered: number;
   created: number;
+  score: number;
 }
 
 export interface ILeaderBoardPage {

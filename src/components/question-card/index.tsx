@@ -8,7 +8,7 @@ import "./style.css";
 const QuestionCard = ({ question, isUnAnwseredQuestion }: IQuestionCard) => {
   const navigate = useNavigate();
   const navigateTo = (id: string) => {
-    navigate(`/question/${id}`, {
+    navigate(`/questions/${id}`, {
       state: {
         isUnAnwseredQuestion,
       },
