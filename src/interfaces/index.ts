@@ -149,6 +149,7 @@ export interface ILogin {
 
 export interface IRequireAuth {
   isUserLogged: boolean;
+  dispatch: Dispatch<any>;
 }
 
 export interface INewQuestion {
